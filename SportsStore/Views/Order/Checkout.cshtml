@@ -1,0 +1,86 @@
+﻿@model Order
+
+<h2>Check out now</h2>
+<p>Please enter your details, and we'll ship your goods right away!</p>
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger" asp-validation-summary="All"></div>
+}
+
+<form asp-action="Checkout" method="post">
+    <h3>Ship To:</h3>
+    <div class="form-floating mb-4">
+        <input asp-for="Name" class="form-control" placeholder="Name" />
+        <label class="form-label" asp-for="Name"></label>
+    </div>
+    <h3>Address</h3>
+    <div class="form-floating mb-3">
+        <input asp-for="Line1" class="form-control" placeholder="Line1" />
+        <label class="form-label" asp-for="Line1"></label>
+        <span asp-validation-for="Line1" class="text-danger mt-3"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Line2" class="form-control" placeholder="Line2" />
+        <label class="form-label" asp-for="Line2"></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Line3" class="form-control" placeholder="Line3" />
+        <label class="form-label" asp-for="Line3"></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="City" class="form-control" placeholder="City" />
+        <label class="form-label" asp-for="City"></label>
+        <span asp-validation-for="City" class="text-danger mt-3"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="State" class="form-control" placeholder="State" />
+        <label class="form-label" asp-for="State"></label>
+        <span asp-validation-for="State" class="text-danger mt-3"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Zip" class="form-control" placeholder="Zip" />
+        <label class="form-label" asp-for="Zip"></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Country" class="form-control" placeholder="Country" />
+        <label class="form-label" asp-for="Country"></label>
+        <span asp-validation-for="Country" class="text-danger mt-3"></span>
+    </div>
+    <h3>Options</h3>
+    <div class="form-check mb-4">
+        <input asp-for="GiftWrap" class="form-check-input" />
+        <label class="form-check-label">Gift wrap these items</label>
+    </div>
+    @*<select class="form-select" name="countryName">
+        <option selected>Country</option>
+    </select>*@
+    <div class="d-block">
+        <input class="btn btn-primary w-100" type="submit" value="Complete Order" />
+    </div>
+</form>
+
+@section Scripts{ 
+    <script>
+        var nameInput = document.getElementsByName("Name")[0];
+        nameInput.addEventListener("change", () => {
+            nameInput.setAttribute("class", nameInput.getAttribute("class") + " is-valid");
+            console.log(nameInput.className);
+        });
+
+        var country = document.getElementsByName("countryName")[0];
+        var option = document.createElement("option");
+        option.text = "South Africa";
+        country.add(option, country[1]);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'Access-Control-Allow-Origin:https://api.first.org/data/v1/countries');
+        xhr.onload = () => {
+            if (xhr.status >= 400) {
+                console.error("No countries found");
+            } else {
+                console.log(xhr.response);
+            }
+        };
+        xhr.send();
+    </script>
+}

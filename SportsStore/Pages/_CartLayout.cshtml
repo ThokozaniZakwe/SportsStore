@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <title>SportStore</title>
 </head>
 <body>
@@ -13,5 +14,14 @@
     <div class="m-1 p-1">
         @RenderBody()
     </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var toastsElements = document.querySelectorAll('.toast');
+        for (let i = 0; i < toastsElements.length; i++) {
+            console.log(i);
+            new bootstrap.Toast(toastsElements[i]).show();
+        }
+    </script>
 </body>
 </html>

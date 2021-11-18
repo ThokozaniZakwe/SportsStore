@@ -20,8 +20,10 @@ namespace SportsStore.Pages
 
         public Cart Cart { get; set; }
         public string ReturnUrl { get; set; }
-        public void OnGet(string returnUrl)
+        public string Message { get; set; }
+        public void OnGet(string returnUrl, string message)
         {
+            Message = message;
             ReturnUrl = returnUrl ?? "/";
             //Cart = HttpContext.Session.GetJSon<Cart>("cart") ?? new Cart();
         }
@@ -30,7 +32,7 @@ namespace SportsStore.Pages
         {
             Product product = repository.Products.FirstOrDefault(p => p.ID == Id);
             Cart.AddItem(product, 1);
-            return RedirectToPage(new { returnUrl = returnUrl });
+            return RedirectToPage(new { returnUrl = returnUrl, message = "Added"});
             //Cart = HttpContext.Session.GetJSon<Cart>("cart") ?? new Cart();
             //Cart.AddItem(product, 1);
             //HttpContext.Session.SetJson("cart", Cart);
@@ -40,7 +42,7 @@ namespace SportsStore.Pages
         public IActionResult OnPostRemove(long Id, string returnUrl)
         {
             Cart.RemoveLine(Cart.Lines.First(cl => cl.Product.ID == Id).Product);
-            return RedirectToPage(new { returnUrl = returnUrl });
+            return RedirectToPage(new { returnUrl = returnUrl, message = "Removed" });
         }
     }
 }

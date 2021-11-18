@@ -1,6 +1,36 @@
 ﻿@page
 @model CartModel
 
+@if (!String.IsNullOrEmpty(Model.Message) && Model.Message == "Added")
+{
+    <div class="position-relative p-3">
+        <div class="toast position-absolute top-100 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-primary">
+                <strong class="text-white me-auto">SportsStore</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-center">
+                <h3>@Model.Message Successfully</h3> <i class="far fa-check-circle fa-3x text-primary"></i>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.Message) && Model.Message == "Removed")
+{
+    <div class="position-relative p-3">
+        <div class="toast position-absolute top-100 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger">
+                <strong class="text-white me-auto">SportsStore</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-center">
+                <h3>@Model.Message Successfully</h3> <i class="far fa-times-circle fa-3x text-danger"></i>
+            </div>
+        </div>
+    </div>
+}
+
 <h2>Your Cart</h2>
 <table class="table table-bordered table-striped">
     <thead>
@@ -12,24 +42,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var line in Model.Cart.Lines)
-            {
-                <tr>
-                    <td class="text-center">@line.Quantity</td>
-                    <td class="text-start">@line.Product.Name</td>
-                    <td class="text-end">@line.Product.Price.ToString("c")</td>
-                    <td class="text-end">
-                        @((line.Quantity * line.Product.Price).ToString("c"))
-                    </td>
-                    <td class="text-center">
-                        <form asp-page-handler="Remove" method="post">
-                            <input type="hidden" name="Id" value="@line.Product.ID" />
-                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
+        @foreach (var line in Model.Cart.Lines)
+        {
+            <tr>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-start">@line.Product.Name</td>
+                <td class="text-end">@line.Product.Price.ToString("c")</td>
+                <td class="text-end">
+                    @((line.Quantity * line.Product.Price).ToString("c"))
+                </td>
+                <td class="text-center">
+                    <form asp-page-handler="Remove" method="post">
+                        <input type="hidden" name="Id" value="@line.Product.ID" />
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">Remove <i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
     <tfoot>
         <tr>
@@ -43,4 +73,5 @@
 
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+    <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">Checkout</a>
 </div>
